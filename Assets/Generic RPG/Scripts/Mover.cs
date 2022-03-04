@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+namespace GenericRPG
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Mover : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Transform target;
+        private NavMeshAgent playerNavMeshAgent;
+        // Start is called before the first frame update
+        void Start()
+        {
+            playerNavMeshAgent = GetComponent<NavMeshAgent>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if(playerNavMeshAgent == null)
+                playerNavMeshAgent = GetComponentInChildren<NavMeshAgent>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            playerNavMeshAgent.SetDestination(target.position);
+        }
     }
 }
