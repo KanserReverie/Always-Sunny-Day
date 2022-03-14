@@ -9,31 +9,26 @@ namespace GenericRPG
         private NavMeshAgent playerNavMeshAgent;
 
         private Camera mainCamera;
-        private Ray lastRay;
         // Start is called before the first frame update
         void Start()
         {
-            playerNavMeshAgent = GetComponent<NavMeshAgent>();
-
-            mainCamera = Camera.main;
-            if(playerNavMeshAgent == null)
-                playerNavMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            playerNavMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            mainCamera = Camera.main; // Gets the main camera.
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetMouseButtonDown(0))
-            {
-                MoveToCursor();
-            }
-            lastRay = mainCamera.ScreenPointToRay(Input.mousePosition);
-            playerNavMeshAgent.SetDestination(target.position);
+            if(Input.GetMouseButtonDown(0)) MoveToCursor();// Gets left mouse button 
         }
 
         private void MoveToCursor()
         {
-            
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition); // Gets the mouse position.
+            RaycastHit hit;
+            bool hasHit = Physics.Raycast(ray, out hit);
+            if(hasHit)
+                playerNavMeshAgent.SetDestination(hit.point);
         }
     }
 }
