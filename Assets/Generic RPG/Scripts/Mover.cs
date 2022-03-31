@@ -5,13 +5,13 @@ namespace GenericRPG
 {
     public class Mover : MonoBehaviour
     {
-        [SerializeField] private Transform target;
         private NavMeshAgent playerNavMeshAgent;
-
+        private Animator playerAnimator;
         private Camera mainCamera;
         // Start is called before the first frame update
         void Start()
         {
+            playerAnimator = GetComponentInChildren<Animator>();
             playerNavMeshAgent = GetComponentInChildren<NavMeshAgent>();
             mainCamera = Camera.main; // Gets the main camera.
         }
@@ -20,6 +20,7 @@ namespace GenericRPG
         void Update()
         {
             if(Input.GetMouseButtonDown(0)) MoveToCursor();// Gets left mouse button 
+            UpdateAnimator();
         }
 
         private void MoveToCursor()
@@ -29,6 +30,14 @@ namespace GenericRPG
             bool hasHit = Physics.Raycast(ray, out hit);
             if(hasHit)
                 playerNavMeshAgent.SetDestination(hit.point);
+        }
+        
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = playerNavMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity); // Need this to convert to the direction the player is moving on a plane.
+            float speed = localVelocity.z;
+            playerAnimator.SetFloat("forwardSpeed", speed);
         }
     }
 }
