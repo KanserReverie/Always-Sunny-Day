@@ -9,7 +9,7 @@ namespace GenericRPG
         private Animator playerAnimator;
         private Camera mainCamera;
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             playerAnimator = GetComponentInChildren<Animator>();
             playerNavMeshAgent = GetComponentInChildren<NavMeshAgent>();
@@ -17,9 +17,9 @@ namespace GenericRPG
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if(Input.GetMouseButtonDown(0)) MoveToCursor();// Gets left mouse button 
+            if(Input.GetMouseButton(0)) MoveToCursor();// Gets left mouse button 
             UpdateAnimator();
         }
 
